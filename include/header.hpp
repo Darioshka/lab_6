@@ -58,7 +58,7 @@ std::string sha256(std::string data_sha) {
 
 void stream() {
     while (true) {
-		unsigned r_time = time(nullptr);
+        unsigned r_time = time(nullptr);
         std::string random_data = rand_s(rand_r(&r_time) % 9);
         std::string hash_result = sha256(random_data);
 
