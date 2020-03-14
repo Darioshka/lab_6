@@ -10,7 +10,6 @@
 #include "picosha2.h"
 #include <cstring>
 #include <string>
-#include <iostream>
 #include <boost/log/trivial.hpp>
 #include <boost/log/expressions.hpp>
 #include <boost/log/utility/setup/file.hpp>
@@ -29,28 +28,27 @@ void init() {
             (
                     boost::log::keywords::file_name = "/tmp/my_file%N.log",
                     boost::log::keywords::rotation_size = 10 * 1024 * 1024,
-                    boost::log::keywords::time_based_rotation = boost::log::sinks::file::rotation_at_time_point(0, 0, 0),
-                    boost::log::keywords::format =  "[%TimeStamp%] [%ThreadID%] [%Severity%] %Message%"
-            );
+                    boost::log::keywords::time_based_rotation =
+					boost::log::sinks::file::rotation_at_time_point(0, 0, 0),
+                    boost::log::keywords::format = 
+					"[%TimeStamp%] [%ThreadID%] [%Severity%] %Message%");
     boost::log::add_console_log
             (
                     std::cout,
-                    boost::log::keywords::format = "[%TimeStamp%] [%ThreadID%] [%Severity%] %Message%"
-            );
+                    boost::log::keywords::format = "[%TimeStamp%] [%ThreadID%] [%Severity%] %Message%");
     boost::log::add_common_attributes();
 }
 
 std::string rand_s(int length)
 {
     std::string result;
-    for(int i = 0; i < length; i++)
-    {
+    for(int i = 0; i < length; i++) {
         result.push_back( rand() % 255);
     }
     return result;
 }
 
-std::string sha256(std::string data_sha){
+std::string sha256(std::string data_sha) {
     std::string hash = picosha2::hash256_hex_string(data_sha);
     return hash;
 }
@@ -77,7 +75,7 @@ int main(int argc, char* argv[]) {
     for(int i = 0; i < 3; i++){
         th_vec.emplace_back(std::thread(stream));
     }
-    for(int i = 0; i < M-1; i++){
+    for(int i = 0; i < M-1; i++) {
         th_vec[i].join();
     }
     return 0;
