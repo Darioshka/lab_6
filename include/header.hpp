@@ -45,7 +45,7 @@ std::string rand_s(int length)
 {
     std::string result;
     for (int i = 0; i < length; i++) {
-        r_time = time(nullptr);
+        unsigned r_time = time(nullptr);
         result.push_back(rand_r(&r_time) % 255);
     }
     return result;
@@ -58,7 +58,7 @@ std::string sha256(std::string data_sha) {
 
 void stream() {
     while (true) {
-        r_time = time(nullptr);
+		unsigned r_time = time(nullptr);
         std::string random_data = rand_s(rand_r(&r_time) % 9);
         std::string hash_result = sha256(random_data);
 
@@ -71,19 +71,5 @@ void stream() {
             << std::this_thread::get_id();
         }
     }
-}
-int main(int argc, char* argv[]) {
-    init();
-    unsigned int M = 0;
-    M = std::thread::hardware_concurrency();
-    cout << M << endl;
-    std::vector <std::thread> th_vec;
-    for (int i = 0; i < 3; i++) {
-        th_vec.emplace_back(std::thread(stream));
-    }
-    for (int i = 0; i < 3; i++) {
-        th_vec[i].join();
-    }
-    return 0;
 }
 #endif // INCLUDE_HEADER_HPP_
