@@ -7,7 +7,7 @@
 #include <cstdlib>
 #include <vector>
 #include <algorithm>
-#include "picosha2.h"
+#include <picosha2.h>
 #include <cstring>
 #include <string>
 #include <boost/log/trivial.hpp>
@@ -29,8 +29,8 @@ void init() {
                     boost::log::keywords::file_name = "/tmp/my_file%N.log",
                     boost::log::keywords::rotation_size = 10 * 1024 * 1024,
                     boost::log::keywords::time_based_rotation =
-					boost::log::sinks::file::rotation_at_time_point(0, 0, 0),
-                    boost::log::keywords::format = 
+                    boost::log::sinks::file::rotation_at_time_point(0, 0, 0),
+                    boost::log::keywords::format =
 					"[%TimeStamp%] [%ThreadID%] [%Severity%] %Message%");
     boost::log::add_console_log
             (
@@ -59,10 +59,12 @@ void stream() {
         std::string hash_result = sha256(random_data);
 
         if (hash_result.find("0000") == hash_result.size()-4) {
-            BOOST_LOG_TRIVIAL(info) << hash_result << " id: " << std::this_thread::get_id();
+            BOOST_LOG_TRIVIAL(info) << hash_result << " id: "
+			<< std::this_thread::get_id();
             break;
         } else {
-            BOOST_LOG_TRIVIAL(trace) << hash_result << " id: " << std::this_thread::get_id();
+            BOOST_LOG_TRIVIAL(trace) << hash_result << " id: "
+			<< std::this_thread::get_id();
         }
     }
 }
@@ -72,7 +74,7 @@ int main(int argc, char* argv[]) {
     M = std::thread::hardware_concurrency();
     cout << M << endl;
     std::vector <std::thread> th_vec;
-    for(int i = 0; i < 3; i++){
+    for(int i = 0; i < 3; i++) {
         th_vec.emplace_back(std::thread(stream));
     }
     for(int i = 0; i < M-1; i++) {
