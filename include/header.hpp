@@ -19,7 +19,6 @@
 #include <boost/log/sources/severity_logger.hpp>
 
 std::atomic_uint64_t a = 0;
-std::mutex my_lock;
 using std::cout;
 using std::endl;
 
@@ -78,7 +77,6 @@ int main(int argc, char* argv[]) {
     for(int i = 0; i < 3; i++){
         th_vec.emplace_back(std::thread(stream));
     }
-
     for(int i = 0; i < M-1; i++){
         th_vec[i].join();
     }
