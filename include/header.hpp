@@ -10,6 +10,7 @@
 #include <picosha2.h>
 #include <cstring>
 #include <string>
+#include <stdlib.h>
 #include <boost/log/trivial.hpp>
 #include <boost/log/expressions.hpp>
 #include <boost/log/utility/setup/file.hpp>
@@ -80,7 +81,7 @@ int main(int argc, char* argv[]) {
     for (int i = 0; i < 3; i++) {
         th_vec.emplace_back(std::thread(stream));
     }
-    for (int i = 0; i < M-1; i++) {
+    for (int i = 0; i < 3; i++) {
         th_vec[i].join();
     }
     return 0;
