@@ -35,15 +35,17 @@ void init() {
     boost::log::add_console_log
             (
                     std::cout,
-                    boost::log::keywords::format = "[%TimeStamp%] [%ThreadID%] [%Severity%] %Message%");
+                    boost::log::keywords::format =
+                    "[%TimeStamp%] [%ThreadID%] [%Severity%] %Message%");
     boost::log::add_common_attributes();
 }
 
 std::string rand_s(int length)
 {
     std::string result;
-    for(int i = 0; i < length; i++) {
-        result.push_back( rand() % 255);
+    for (int i = 0; i < length; i++) {
+        r_time = time(nullptr);
+        result.push_back(rand_r(&r_time) % 255);
     }
     return result;
 }
@@ -55,7 +57,8 @@ std::string sha256(std::string data_sha) {
 
 void stream() {
     while (true) {
-        std::string random_data = rand_s(1 + rand() % 9);
+        r_time = time(nullptr);
+        std::string random_data = rand_s(rand_r(&r_time) % 9);
         std::string hash_result = sha256(random_data);
 
         if (hash_result.find("0000") == hash_result.size()-4) {
